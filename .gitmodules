@@ -1,0 +1,3 @@
+[submodule "stoch_sym/model/semantic/emlp_pytorch"]
+	path = stoch_sym/model/semantic/emlp_pytorch
+	url = git@github.com:jrmcornish/emlp-pytorch.git

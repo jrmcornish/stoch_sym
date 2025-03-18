@@ -1,0 +1,15 @@
+# Use this to generate a requirements.txt file with `pip-compile -o requirements.txt`
+
+numpy
+scipy
+torch
+discopy==1.1.7
+tqdm
+wandb
+
+# The following are required by emlp-pytorch (which we install as a submodule)
+scikit-learn
+plum-dispatch
+
+# The following is required for plot_results.py (not for training the models via main.py)
+pandas

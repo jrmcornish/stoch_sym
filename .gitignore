@@ -1,0 +1,6 @@
+*.pyc
+*checkpoint.pth.tar
+wandb/
+janossy_*.tex
+__pycache__/
+.venv/
