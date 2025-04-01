@@ -24,6 +24,8 @@ Inside the base directory of this repo, do the following:
     $ . .venv/bin/activate
     $ pip install -r requirements.txt
 
+(The first two steps are needed because we make use of the [emlp-pytorch](https://github.com/jw9730/emlp-pytorch/) package as a submodule, which is a PyTorch port of the official [equivariant-MLP](https://github.com/mfinzi/equivariant-MLP) implementation in JAX.)
+
 At this point, you should be able to run the script `main.py` in the main directory of this repository.
 
 ## Basic usage
