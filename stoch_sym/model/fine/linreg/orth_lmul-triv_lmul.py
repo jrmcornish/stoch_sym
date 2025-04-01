@@ -33,7 +33,7 @@ def mlp_haar(box: Box) -> Diagram | None:
         case "f":
             return sequential(["flatten", "f_mlp"], box.dom, box.cod)
 
-        case "gamma_0":
+        case "gamma":
             return orth_haar(box.cod, box.dom)
 
         case _:
@@ -45,12 +45,12 @@ def mlp_mlphaar(box: Box) -> Diagram | None:
         case "f":
             return sequential(["flatten", "f_mlp"], box.dom, box.cod)
 
-        case "gamma_0":
+        case "gamma_1":
             return noise_outsourced(
                 ["flatten", "gamma_mlp", "make_square", "qr"], box.dom, box.cod
             )
 
-        case "gamma_1":
+        case "gamma_0":
             return orth_haar(box.cod, box.dom)
 
         case _:
@@ -62,7 +62,7 @@ def mlp_emlp(box: Box) -> Diagram | None:
         case "f":
             return sequential(["flatten", "f_mlp"], box.dom, box.cod)
 
-        case "gamma_0":
+        case "gamma":
             # TODO: Could make a component "vec" that does transpose and flatten
             transpose = Box("transpose", box.dom, new_ty())
             flatten = Box("flatten", transpose.cod, new_ty())

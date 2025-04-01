@@ -8,7 +8,6 @@ from ..shared import (
     orth2_inv,
     orth2_haar,
     sequential,
-    orth_right_matmul_by_transpose,
     noise_outsourced,
     new_ty,
 )
@@ -41,8 +40,7 @@ def mlp_haar(box: Box) -> Diagram | None:
         case "f":
             return sequential(["flatten", "f_mlp", "make_square"], box.dom, box.cod)
 
-        # TODO: Rename (everywhere) to match paper
-        case "gamma_0":
+        case "gamma":
             X = box.dom
             G = box.cod
             return orth2_haar(G, X)
@@ -62,15 +60,14 @@ def mlp_mlphaar(box: Box) -> Diagram | None:
         case "f":
             return sequential(["flatten", "f_mlp", "make_square"], box.dom, box.cod)
 
-        # TODO: Rename (everywhere) to match paper
-        case "gamma_0":
+        case "gamma_1":
             U = new_ty()
             backbone = noise_outsourced(["flatten", "gamma_mlp"], box.dom, U)
             split = Box("split", U, U @ U)
             pr = sequential(["make_square", "qr"], U, box.cod)
             return backbone >> split >> (pr @ pr)
 
-        case "gamma_1":
+        case "gamma_0":
             X = box.dom
             G = box.cod
             return orth2_haar(G, X)

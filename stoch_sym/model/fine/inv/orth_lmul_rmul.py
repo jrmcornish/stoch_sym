@@ -24,7 +24,7 @@ def mlp_haar(box: Box) -> Diagram | None:
         case "f":
             return sequential(["flatten", "f_mlp", "make_square"], box.dom, box.cod)
 
-        case "gamma_0":
+        case "gamma":
             return orth_haar(box.cod, box.dom)
 
         case _:
@@ -36,32 +36,13 @@ def mlp_mlphaar(box: Box) -> Diagram | None:
         case "f":
             return sequential(["flatten", "f_mlp", "make_square"], box.dom, box.cod)
 
-        case "gamma_0":
+        case "gamma_1":
             return noise_outsourced(
                 ["flatten", "gamma_mlp", "make_square", "qr"], box.dom, box.cod
             )
 
-        case "gamma_1":
+        case "gamma_0":
             return orth_haar(box.cod, box.dom)
-
-        case _:
-            return group_component(box)
-
-
-def mlp_mlpscalarsmlp(box: Box) -> Diagram | None:
-    match box.name:
-        case "f":
-            return sequential(["flatten", "f_mlp", "make_square"], box.dom, box.cod)
-
-        case "gamma_0":
-            return noise_outsourced(
-                ["flatten", "gamma_mlp", "make_square", "qr"], box.dom, box.cod
-            )
-
-        case "gamma_1":
-            return noise_outsourced(
-                ["append", "gamma_scalars_mlp", "qr"], box.dom, box.cod
-            )
 
         case _:
             return group_component(box)
@@ -72,7 +53,7 @@ def mlp_emlp(box: Box) -> Diagram | None:
         case "f":
             return sequential(["flatten", "f_mlp", "make_square"], box.dom, box.cod)
 
-        case "gamma_0":
+        case "gamma":
             return noise_outsourced(
                 [
                     "append",
@@ -85,20 +66,6 @@ def mlp_emlp(box: Box) -> Diagram | None:
                 ],
                 box.dom,
                 box.cod,
-            )
-
-        case _:
-            return group_component(box)
-
-
-def mlp_scalarsmlp(box: Box) -> Diagram | None:
-    match box.name:
-        case "f":
-            return sequential(["flatten", "f_mlp", "make_square"], box.dom, box.cod)
-
-        case "gamma_0":
-            return noise_outsourced(
-                ["append", "gamma_scalars_mlp", "qr"], box.dom, box.cod
             )
 
         case _:

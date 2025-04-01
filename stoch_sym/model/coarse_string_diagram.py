@@ -40,32 +40,31 @@ def get_coarse_string_diagram(gamma_type: str) -> Diagram:
 
     G = Ty("G")
 
-    gamma = get_gamma_string_diagram(
-        gamma=new_gamma_box(G), depth=get_depth(gamma_type)
-    )
+    gamma = get_gamma(gamma_type, X, G)
 
     return sym(f, G, Id(G), gamma)
 
 
-def get_depth(gamma_type):
+def get_gamma(gamma_type: str, X: Ty, G: Ty) -> Diagram:
     match gamma_type:
         case "haar" | "emlp":
-            return 0
+            return get_unsymmetrised_gamma(X, G)
 
         case "mlp-haar":
-            return 1
+            return get_recursive_gamma(X, G)
 
         case _:
             raise NotImplementedError
 
 
-def get_gamma_string_diagram(gamma, depth: int) -> Diagram:
-    if depth == 0:
-        return gamma
+def get_unsymmetrised_gamma(X: Ty, G: Ty) -> Diagram:
+    return Box("gamma", X, G)
 
-    G = gamma.cod
 
-    return sym(gamma, G, Id(G), get_gamma_string_diagram(new_gamma_box(G), depth - 1))
+def get_recursive_gamma(X: Ty, G: Ty) -> Diagram:
+    backbone = Box("gamma_0", X, G)
+    base_case = Box("gamma_1", X, G)
+    return sym(base_case, G, Id(G), backbone)
 
 
 def sym(f: Diagram, G: Ty, s: Box, gamma: Diagram) -> Diagram:
@@ -103,12 +102,3 @@ def get_act(G: Ty, X: Ty) -> Box:
 def precompose(k_plus: Diagram, gamma: Diagram) -> Diagram:
     _, X = k_plus.dom
     return Copy(X) >> gamma @ X >> k_plus
-
-
-_gamma_count = -1
-
-
-def new_gamma_box(cod: Ty) -> Box:
-    global _gamma_count
-    _gamma_count += 1
-    return Box(f"gamma_{_gamma_count}", Ty("X"), cod)
