@@ -13,10 +13,10 @@ def parse_args() -> argparse.Namespace:
                         choices=["orth", "orth2"],
                         help="The group to use. Not all choices work with all datasets (see Section 7.3 of the paper).")
     parser.add_argument("--input-action", type=str,
-                        choices=["lmul", "conj", "lmul-rmul", "lmul-triv"],
+                        choices=["lmul", "lmul-triv", "conj", "lmul-rmul"],
                         help="The action equipping the input space. Not all choices work with all datasets (see Section 7.3 of the paper).")
     parser.add_argument("--output-action", type=str,
-                        choices=["conj", "rmul-lmul", "rmul"],
+                        choices=["conj", "lmul", "rmul-lmul", "rmul"],
                         help="The action equipping the output space. Not all choices work with all datasets (see Section 7.3 of the paper).")
     parser.add_argument("--backbone", choices=["mlp", "emlp"], help="The type of neural network to use for the backbone of the model")
     parser.add_argument("--gamma", choices=["none", "haar", "mlp-haar", "emlp"], help="The type of gamma to be used")
